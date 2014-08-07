@@ -19,3 +19,18 @@
   => {:called {:chat ["bob"]}
       :result [{:date 1, :content "Hi"}
                {:date 2, :content "Hi again"}]})
+
+(fact "Different ways of calling"
+      (do
+        (require 'chat.core)
+        (chat.core/say "Hello"))
+      (p/call :chat "core/say" "Hello"))
+
+(fact mocking
+      (with-mock :chat "core/say"  (fn [& args] (str "You said: " (first args)))
+                 (-> :chat
+                     p/list-services
+                     (str "/core/say")
+                     @(http/post {:post {:message "Hello"}})
+                     :body)
+                 => "You said: Hello"))

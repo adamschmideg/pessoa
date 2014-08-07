@@ -11,21 +11,25 @@
   [service])
 
 "
-- help
+- about
   - types: depends
   - api: depends
+  - thrift
   - dependencies
   - dist
   - status
     - check
+  - version
+    - name
+    - hash
+- system
   - restart
   - upload
-  - about
-    - name
-    - version
-    - hash
 
 "
+
+(defmacro with-mock
+  [service end-point f])
 
 (defn edn-to-thrift [form])
 
